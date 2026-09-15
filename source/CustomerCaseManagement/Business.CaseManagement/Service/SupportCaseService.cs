@@ -3,31 +3,18 @@ using Domain.CaseManagement.Entity;
 using Application.CaseManagement.DTO;
 using Application.CaseManagement.Enums;
 using System.Runtime;
-using FluentValidation;
-using Application.CaseManagement.Validator;
-
 
 namespace Application.CaseManagement.Service
 {
     public class SupportCaseService : ISupportCaseService
     {
         private readonly ISupportCaseRepository _supportCaseRepository;
-        private readonly IValidator<SupportCaseRequest> _validator;
-        public SupportCaseService(ISupportCaseRepository supportCaseRepository, IValidator<SupportCaseRequest> validator)
+        public SupportCaseService(ISupportCaseRepository supportCaseRepository)
         {
             _supportCaseRepository = supportCaseRepository;
-            _validator = validator;
         }
         public async Task<SupportCaseResponse> AddAsync(SupportCaseRequest supportCaseRequest)
         {
-            // Validate the request
-            var validationResult = await _validator.ValidateAsync(supportCaseRequest);
-            if (!validationResult.IsValid)
-            {
-                var errors = string.Join(", ", validationResult.Errors.Select(e => e.ErrorMessage));
-                throw new ValidationException($"Validation failed: {errors}", validationResult.Errors);
-            }
-
             //Map DTO to Entity
             var supportCase = new SupportCase
             {
