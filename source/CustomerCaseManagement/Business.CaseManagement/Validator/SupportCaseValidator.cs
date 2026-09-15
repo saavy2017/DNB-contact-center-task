@@ -9,14 +9,22 @@ namespace Application.CaseManagement.Validator
         public SupportCaseValidator() 
         {
             RuleFor(x => x.ReferenceNumber)
-                .NotEmpty().WithMessage("Reference number is required."); 
+                .NotEmpty().WithMessage("Reference number is required.");
 
             RuleFor(x => x.CustomerName)
-                .NotEmpty().WithMessage("Customer name is required.");
+                .NotEmpty().WithMessage("Customer name is required.")
+                .MaximumLength(100).WithMessage("Customer name cannot exceed 100 characters.");
 
             RuleFor(x => x.CustomerEmail)
                 .NotEmpty().WithMessage("Customer email is required.")
-                .EmailAddress().WithMessage("Invalid email address.");
+                .EmailAddress().WithMessage("Invalid email address.")
+                .MaximumLength(250).WithMessage("Customer email cannot exceed 250 characters.");
+
+            RuleFor(x => x.Subject)
+                .MaximumLength(250).WithMessage("Subject cannot exceed 250 characters.");
+
+            RuleFor(x => x.Description)
+                .MaximumLength(500).WithMessage("Description cannot exceed 500 characters.");
 
             RuleFor(x => x.Status)
                 .NotEmpty().WithMessage("Status is required.")

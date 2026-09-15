@@ -18,7 +18,6 @@ namespace Application.CaseManagement.Service
             //Map DTO to Entity
             var supportCase = new SupportCase
             {
-                ReferenceNumber = supportCaseRequest.ReferenceNumber,
                 CustomerName = supportCaseRequest.CustomerName,
                 CustomerEmail = supportCaseRequest.CustomerEmail,
                 Subject = string.IsNullOrWhiteSpace(supportCaseRequest.Subject) ? "New Case Opened" : supportCaseRequest.Subject,
