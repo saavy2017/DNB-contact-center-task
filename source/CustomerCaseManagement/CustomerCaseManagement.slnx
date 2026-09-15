@@ -1,0 +1,6 @@
+<Solution>
+  <Project Path="API.CaseManagement/API.CaseManagement.csproj" />
+  <Project Path="Business.CaseManagement/Business.CaseManagement.csproj" />
+  <Project Path="Domain.CaseManagement/Domain.CaseManagement.csproj" Id="b3e0ed28-39ca-40dc-b984-ef79a7b80caa" />
+  <Project Path="Infra.CaseManagement/Infra.CaseManagement.csproj" />
+</Solution>
