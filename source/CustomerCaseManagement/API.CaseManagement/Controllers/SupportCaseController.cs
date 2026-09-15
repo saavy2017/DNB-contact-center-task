@@ -1,6 +1,6 @@
+using Application.CaseManagement.DTO;
+using Application.CaseManagement.Interface;
 using Microsoft.AspNetCore.Mvc;
-using Domain.CaseManagement.Entity;
-using Business.CaseManagement.Interface;
 
 namespace API.CaseManagement.Controllers
 {
@@ -14,13 +14,13 @@ namespace API.CaseManagement.Controllers
             _supportCaseService = supportCaseService;
         }
         [HttpGet(Name = "GetSupportCases")]
-        public async Task<IEnumerable<SupportCase>> Get()
+        public async Task<IEnumerable<SupportCaseRequest>> Get()
         {
             return await _supportCaseService.GetAllAsync();
         }
 
         [HttpGet("{id}", Name = "GetSupportCaseById")]
-        public async Task<ActionResult<SupportCase>> Get(int id)
+        public async Task<ActionResult<SupportCaseRequest>> Get(int id)
         {
             var supportCase = await _supportCaseService.GetByIdAsync(id);
             if (supportCase == null)
@@ -31,7 +31,7 @@ namespace API.CaseManagement.Controllers
         }
 
         [HttpGet("search/{id}")]
-        public async Task<ActionResult<SupportCase>> Search(int id)
+        public async Task<ActionResult<SupportCaseRequest>> Search(int id)
         {
             var supportCase = await _supportCaseService.Search(id);
             if (supportCase == null)
@@ -41,17 +41,17 @@ namespace API.CaseManagement.Controllers
             return Ok(supportCase);
         }
 
-        [HttpPost]
-        public async Task<ActionResult<SupportCase>> Post(SupportCase supportCase)
+        [HttpPost(("CreateSupportCase"))]
+        public async Task<SupportCaseRequest> Post(SupportCaseRequest supportCase)
         {
             var createdSupportCase = await _supportCaseService.AddAsync(supportCase);
-            return CreatedAtAction(nameof(Get), new { id = createdSupportCase.Id }, createdSupportCase);
+            return createdSupportCase;
         }
 
-        [HttpPut("{id}")]
-        public async Task<ActionResult<SupportCase>> Put(int id, SupportCase supportCase)
+        [HttpPut("UpdateSupportCase")]
+        public async Task<ActionResult<SupportCaseRequest>> Update(SupportCaseRequest supportCase)
         {
-            if (id != supportCase.Id)
+            if (supportCase.ReferenceNumber <= 0)
             {
                 return BadRequest();
             }

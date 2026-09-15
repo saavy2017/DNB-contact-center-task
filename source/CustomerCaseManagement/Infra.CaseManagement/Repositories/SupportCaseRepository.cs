@@ -1,4 +1,4 @@
-﻿using Business.CaseManagement.Interface;
+﻿using Application.CaseManagement.Interface;
 using Domain.CaseManagement.Entity;
 using Microsoft.EntityFrameworkCore;
 

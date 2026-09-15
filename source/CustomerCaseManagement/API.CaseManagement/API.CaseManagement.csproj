@@ -7,12 +7,14 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="FluentValidation" Version="12.1.1" />
+    <PackageReference Include="FluentValidation.DependencyInjectionExtensions" Version="12.1.1" />
     <PackageReference Include="Microsoft.EntityFrameworkCore" Version="8.0.0" />
     <PackageReference Include="Swashbuckle.AspNetCore" Version="6.8.1" />
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Domain.CaseManagement\Domain.CaseManagement.csproj" />
+    <ProjectReference Include="..\Business.CaseManagement\Application.CaseManagement.csproj" />
     <ProjectReference Include="..\Infra.CaseManagement\Infra.CaseManagement.csproj" />
   </ItemGroup>
 

@@ -11,7 +11,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Business.CaseManagement\Business.CaseManagement.csproj" />
+    <ProjectReference Include="..\Business.CaseManagement\Application.CaseManagement.csproj" />
     <ProjectReference Include="..\Domain.CaseManagement\Domain.CaseManagement.csproj" />
   </ItemGroup>
 

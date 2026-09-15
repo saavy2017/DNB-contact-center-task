@@ -1,7 +1,7 @@
 using Infra.CaseManagement;
 using Microsoft.EntityFrameworkCore;
-using Business.CaseManagement.Interface;
-using Business.CaseManagement.Service;
+using Application.CaseManagement.Interface;
+using Application.CaseManagement.Service;
 using Infra.CaseManagement.Repositories;
 
 

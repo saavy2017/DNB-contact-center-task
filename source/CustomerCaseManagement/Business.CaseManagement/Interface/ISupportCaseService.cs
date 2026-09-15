@@ -1,13 +1,13 @@
-﻿using Domain.CaseManagement.Entity;
+﻿using Application.CaseManagement.DTO;
 
-namespace Business.CaseManagement.Interface
+namespace Application.CaseManagement.Interface
 {
     public interface ISupportCaseService
     {
-        Task<SupportCase> AddAsync(SupportCase supportCase);
-        Task<SupportCase> GetByIdAsync(int id);
-        Task<List<SupportCase>> GetAllAsync();
-        Task<SupportCase> UpdateAsync(SupportCase supportCase);
-        Task<List<SupportCase>> Search(int id);
+        Task<SupportCaseRequest> AddAsync(SupportCaseRequest supportCase);
+        Task<SupportCaseRequest> GetByIdAsync(int id);
+        Task<List<SupportCaseRequest>> GetAllAsync();
+        Task<SupportCaseRequest> UpdateAsync(SupportCaseRequest supportCase);
+        Task<List<SupportCaseRequest>> Search(int id);
     }
 }

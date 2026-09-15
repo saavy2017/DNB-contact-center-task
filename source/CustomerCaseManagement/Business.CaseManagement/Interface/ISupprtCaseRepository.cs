@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Business.CaseManagement.Interface
+namespace Application.CaseManagement.Interface
 {
     public interface ISupportCaseRepository
     {
