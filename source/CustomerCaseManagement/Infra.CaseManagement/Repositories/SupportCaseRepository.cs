@@ -13,7 +13,7 @@ namespace Infra.CaseManagement.Repositories
         }
         public async Task<SupportCase> AddAsync(SupportCase supportCase)
         {
-            supportCase.ReferenceNumber = _context.SupportCase.Max(x=>x.Id) + 1;
+            supportCase.ReferenceNumber = _context.SupportCase.Max(x => x.Id) + 1;
             await _context.SupportCase.AddAsync(supportCase);
             await _context.SaveChangesAsync();
             return supportCase;
@@ -21,14 +21,7 @@ namespace Infra.CaseManagement.Repositories
 
         public async Task<List<SupportCase>> GetAllAsync()
         {
-            try
-            {
-                return await _context.SupportCase.ToListAsync();
-            }
-            catch (Exception ex)
-            {
-                return null;
-            }
+            return await _context.SupportCase.ToListAsync();
         }
 
         public async Task<SupportCase> GetByIdAsync(int id)

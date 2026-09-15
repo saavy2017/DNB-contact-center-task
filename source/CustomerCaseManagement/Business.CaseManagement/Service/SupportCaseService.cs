@@ -20,7 +20,7 @@ namespace Application.CaseManagement.Service
             {
                 CustomerName = supportCaseRequest.CustomerName,
                 CustomerEmail = supportCaseRequest.CustomerEmail,
-                Subject = string.IsNullOrWhiteSpace(supportCaseRequest.Subject) ? "New Case Opened" : supportCaseRequest.Subject,
+                Subject = supportCaseRequest.Subject,
                 Description = string.IsNullOrWhiteSpace(supportCaseRequest.Description) ? "Description not provided" : supportCaseRequest.Description,
                 Priority = supportCaseRequest.Priority,
                 Status = CaseStatus.Open.ToString(),
@@ -109,8 +109,21 @@ namespace Application.CaseManagement.Service
             existingSupportCase.Subject = supportCaseRequest.Subject;
             existingSupportCase.Description = supportCaseRequest.Description;
             existingSupportCase.Priority = supportCaseRequest.Priority;
-            existingSupportCase.Status = supportCaseRequest.Status;
             existingSupportCase.ModifiedOn = DateTime.UtcNow;
+
+            //Status change logic
+            if (existingSupportCase.Status == CaseStatus.Resolved.ToString() && supportCaseRequest.Status != CaseStatus.Resolved.ToString())
+            {
+                throw new Exception($"Resolved support cases cannot be changed to {supportCaseRequest.Status} Status.");
+            }
+            else if (existingSupportCase.Status == CaseStatus.InProgress.ToString() && supportCaseRequest.Status == CaseStatus.Open.ToString())
+            {
+                throw new Exception($"InProgress support cases cannot be changed to {supportCaseRequest.Status} Status.");
+            }
+            else
+            {
+                existingSupportCase.Status = supportCaseRequest.Status;
+            }
 
             var updatedSupportCase = await _supportCaseRepository.UpdateAsync(existingSupportCase);
 

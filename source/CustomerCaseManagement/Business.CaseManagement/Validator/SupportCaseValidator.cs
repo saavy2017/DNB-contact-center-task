@@ -21,6 +21,7 @@ namespace Application.CaseManagement.Validator
                 .MaximumLength(250).WithMessage("Customer email cannot exceed 250 characters.");
 
             RuleFor(x => x.Subject)
+                .NotEmpty().WithMessage("Subject is required.")
                 .MaximumLength(250).WithMessage("Subject cannot exceed 250 characters.");
 
             RuleFor(x => x.Description)
