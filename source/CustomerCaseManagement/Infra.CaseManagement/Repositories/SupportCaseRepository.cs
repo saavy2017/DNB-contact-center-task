@@ -35,6 +35,11 @@ namespace Infra.CaseManagement.Repositories
             return await _context.SupportCase.FirstOrDefaultAsync(s => s.Id == id);
         }
 
+        public async Task<SupportCase> GetByRefIdAsync(int refId)
+        {
+            return await _context.SupportCase.FirstOrDefaultAsync(s => s.ReferenceNumber == refId);
+        }
+
         public async Task<List<SupportCase>> Search(int id)
         {
             return await _context.SupportCase.Where(s => s.Id == id).ToListAsync();

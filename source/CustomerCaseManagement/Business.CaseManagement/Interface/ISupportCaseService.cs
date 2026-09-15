@@ -1,4 +1,5 @@
 ﻿using Application.CaseManagement.DTO;
+using Domain.CaseManagement.Entity;
 
 namespace Application.CaseManagement.Interface
 {
@@ -9,5 +10,6 @@ namespace Application.CaseManagement.Interface
         Task<List<SupportCaseRequest>> GetAllAsync();
         Task<SupportCaseRequest> UpdateAsync(SupportCaseRequest supportCase);
         Task<List<SupportCaseRequest>> Search(int id);
+        Task<SupportCaseRequest> GetByRefIdAsync(int refId);
     }
 }

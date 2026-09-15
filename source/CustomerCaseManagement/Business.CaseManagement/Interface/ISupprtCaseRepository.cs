@@ -14,5 +14,6 @@ namespace Application.CaseManagement.Interface
         Task<List<SupportCase>> GetAllAsync();
         Task<SupportCase> UpdateAsync(SupportCase supportCase);
         Task<List<SupportCase>> Search(int id);
+        Task<SupportCase> GetByRefIdAsync(int refId);
     }
 }
