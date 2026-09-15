@@ -68,7 +68,12 @@ namespace API.CaseManagement.Controllers
             {
                 return BadRequest(new { error = "Reference number must be greater than 0" });
             }
+            
             var supportCaseUpdated = await _supportCaseService.UpdateAsync(supportCase);
+            if (supportCaseUpdated != null && !(string.IsNullOrWhiteSpace(supportCaseUpdated.ErrorMessage)))
+            {
+                return BadRequest(new { error = supportCaseUpdated.ErrorMessage });
+            }
             return Ok(supportCaseUpdated);
         }
 

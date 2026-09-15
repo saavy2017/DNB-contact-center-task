@@ -1,4 +1,6 @@
-﻿namespace Application.CaseManagement.DTO
+﻿using System.Text.Json.Serialization; 
+
+namespace Application.CaseManagement.DTO
 {
     public class SupportCaseResponse
     {
@@ -9,5 +11,7 @@
         public string Description { get; set; }
         public string Priority { get; set; }
         public string Status { get; set; }
+        [JsonIgnore]
+        public string ErrorMessage { get; set; }
     }
 }

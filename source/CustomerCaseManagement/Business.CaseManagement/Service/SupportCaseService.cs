@@ -67,7 +67,7 @@ namespace Application.CaseManagement.Service
             var response = await _supportCaseRepository.GetByRefIdAsync(refId);
 
             //Map Entity to DTO
-            var supportCaseResponse = new SupportCaseResponse   
+            var supportCaseResponse = new SupportCaseResponse
             {
                 ReferenceNumber = response.ReferenceNumber,
                 CustomerName = response.CustomerName,
@@ -97,11 +97,17 @@ namespace Application.CaseManagement.Service
 
         public async Task<SupportCaseResponse> UpdateAsync(SupportCaseRequest supportCaseRequest)
         {
+            string errorMessages = null;
             //Fetch existing Support Case
             var existingSupportCase = await _supportCaseRepository.GetByRefIdAsync(supportCaseRequest.ReferenceNumber);
             if (existingSupportCase == null)
             {
-                throw new Exception($"Support case with reference number {supportCaseRequest.ReferenceNumber} not found.");
+                errorMessages = $"Support case with reference number {supportCaseRequest.ReferenceNumber} not found.";
+                var responseNullError = new SupportCaseResponse
+                {
+                    ErrorMessage = errorMessages
+                };
+                return responseNullError;
             }
             //Map existing Support Case with DTO
             existingSupportCase.CustomerName = supportCaseRequest.CustomerName;
@@ -114,32 +120,39 @@ namespace Application.CaseManagement.Service
             //Status change logic
             if (existingSupportCase.Status == CaseStatus.Resolved.ToString() && supportCaseRequest.Status != CaseStatus.Resolved.ToString())
             {
-                throw new Exception($"Resolved support cases cannot be changed to {supportCaseRequest.Status} Status.");
+                errorMessages = $"Resolved support cases cannot be changed to {supportCaseRequest.Status} Status.";
             }
             else if (existingSupportCase.Status == CaseStatus.InProgress.ToString() && supportCaseRequest.Status == CaseStatus.Open.ToString())
             {
-                throw new Exception($"InProgress support cases cannot be changed to {supportCaseRequest.Status} Status.");
+                errorMessages = $"InProgress support cases cannot be changed to {supportCaseRequest.Status} Status.";
             }
-            else
+
+            if (string.IsNullOrWhiteSpace(errorMessages))
             {
                 existingSupportCase.Status = supportCaseRequest.Status;
+
+                var updatedSupportCase = await _supportCaseRepository.UpdateAsync(existingSupportCase);
+
+                //Map DTO to Entity
+                var response = new SupportCaseResponse
+                {
+                    ReferenceNumber = updatedSupportCase.ReferenceNumber,
+                    CustomerName = updatedSupportCase.CustomerName,
+                    CustomerEmail = updatedSupportCase.CustomerEmail,
+                    Subject = updatedSupportCase.Subject,
+                    Description = updatedSupportCase.Description,
+                    Priority = updatedSupportCase.Priority,
+                    Status = updatedSupportCase.Status,
+                    ErrorMessage = errorMessages
+                };
+
+                return response;
             }
-
-            var updatedSupportCase = await _supportCaseRepository.UpdateAsync(existingSupportCase);
-
-            //Map DTO to Entity
-            var response = new SupportCaseResponse
-            {
-                ReferenceNumber = updatedSupportCase.ReferenceNumber,
-                CustomerName = updatedSupportCase.CustomerName,
-                CustomerEmail = updatedSupportCase.CustomerEmail,
-                Subject = updatedSupportCase.Subject,
-                Description = updatedSupportCase.Description,
-                Priority = updatedSupportCase.Priority,
-                Status = updatedSupportCase.Status
+            var responseError = new SupportCaseResponse
+            {                
+                ErrorMessage = errorMessages
             };
-
-            return response;
+            return responseError;
         }
     }
 }
