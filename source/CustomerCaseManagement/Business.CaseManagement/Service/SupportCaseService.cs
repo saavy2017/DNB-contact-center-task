@@ -117,23 +117,13 @@ namespace Application.CaseManagement.Service
             {
                 throw new Exception($"Support case with reference number {supportCaseRequest.ReferenceNumber} not found.");
             }
-            //bool isvalid = Enum.GetNames<CaseStatus>().Contains(supportCaseRequest.Status);
-            //if (!isvalid)
-            //{
-            //    throw new Exception("Invalid case status.");
-            //}
-
-            //bool isvalidPriority = Enum.GetNames<Priority>().Contains(supportCaseRequest.Priority);
-            //if (!isvalidPriority)
-            //{
-            //    throw new Exception("Invalid priority.");
-            //}
             //Map existing Support Case with DTO
             existingSupportCase.CustomerName = supportCaseRequest.CustomerName;
             existingSupportCase.CustomerEmail = supportCaseRequest.CustomerEmail;
             existingSupportCase.Subject = supportCaseRequest.Subject;
             existingSupportCase.Description = supportCaseRequest.Description;
             existingSupportCase.Priority = supportCaseRequest.Priority;
+            existingSupportCase.Status = supportCaseRequest.Status;
             existingSupportCase.ModifiedOn = DateTime.UtcNow;
 
             var updatedSupportCase = await _supportCaseRepository.UpdateAsync(existingSupportCase);

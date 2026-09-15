@@ -5,39 +5,34 @@ using Application.CaseManagement.Service;
 using Infra.CaseManagement.Repositories;
 using FluentValidation;
 using Application.CaseManagement.Validator;
-using Application.CaseManagement.DTO;
 
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 
-builder.Services.AddControllers().ConfigureApiBehaviorOptions(options =>
-{
-    // Disable automatic model validation to control it manually
-    options.SuppressModelStateInvalidFilter = true;
-});
+builder.Services.AddControllers();
 
 builder.Services.AddProblemDetails();
-// Register validators explicitly, excluding SupportCaseFilterRequest
-builder.Services.AddScoped<IValidator<SupportCaseRequest>, SupportCaseValidator>();
-// Disable automatic FluentValidation integration for all types
+builder.Services.AddValidatorsFromAssemblyContaining<SupportCaseValidator>();
 // Learn more about configuring Swagger at https://aka.ms/aspnet/swashbuckle
-builder.Services.AddSwaggerGen();
+builder.Services.AddSwaggerGen(options =>
+{
+    options.DescribeAllParametersInCamelCase();
+});
 builder.Services.AddDbContext<CaseDbContext>(options => options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
 builder.Services.AddScoped<ISupportCaseService, SupportCaseService>();
 builder.Services.AddScoped<ISupportCaseRepository, SupportCaseRepository>();
+builder.Services.AddScoped<ISupportCaseFilterService, SupportCaseFilterService>();
+builder.Services.AddScoped<ISupportCaseFilterRepository, SupportCaseFilterRepository>();
 
 
 var app = builder.Build();
 app.UseExceptionHandler();
 
 // Configure the HTTP request pipeline.
-if (app.Environment.IsDevelopment())
-{
-    app.UseSwagger();
-    app.UseSwaggerUI();
-}
+app.UseSwagger();
+app.UseSwaggerUI();
 
 app.UseHttpsRedirection();
 

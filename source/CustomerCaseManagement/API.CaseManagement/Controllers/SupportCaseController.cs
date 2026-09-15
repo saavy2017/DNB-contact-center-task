@@ -1,5 +1,6 @@
 using Application.CaseManagement.DTO;
 using Application.CaseManagement.Interface;
+using FluentValidation;
 using Microsoft.AspNetCore.Mvc;
 
 namespace API.CaseManagement.Controllers
@@ -10,10 +11,12 @@ namespace API.CaseManagement.Controllers
     {
         private readonly ISupportCaseService _supportCaseService;
         private readonly ISupportCaseFilterService _supportCaseFilterService;
-        public SupportCaseController(ISupportCaseService supportCaseService, ISupportCaseFilterService supportCaseFilterService)
+        private readonly IValidator<SupportCaseRequest> _validator;
+        public SupportCaseController(ISupportCaseService supportCaseService, ISupportCaseFilterService supportCaseFilterService, IValidator<SupportCaseRequest> validator)
         {
             _supportCaseService = supportCaseService;
             _supportCaseFilterService = supportCaseFilterService;
+            _validator = validator;
         }
         [HttpGet(Name = "GetSupportCases")]
         public async Task<IEnumerable<SupportCaseResponse>> Get()
@@ -40,21 +43,33 @@ namespace API.CaseManagement.Controllers
         }
 
         [HttpPost(("CreateSupportCase"))]
-        public async Task<SupportCaseResponse> Post(SupportCaseRequest supportCase)
+        public async Task<ActionResult<SupportCaseResponse>> Post(SupportCaseRequest supportCase)
         {
+            var validationResult = await _validator.ValidateAsync(supportCase);
+            if (!validationResult.IsValid)
+            {
+                var errors = validationResult.Errors.Select(e => new { field = e.PropertyName, message = e.ErrorMessage }).ToList();
+                return BadRequest(new { errors = errors });
+            }
             var createdSupportCase = await _supportCaseService.AddAsync(supportCase);
-            return createdSupportCase;
+            return Ok(createdSupportCase);
         }
 
         [HttpPut("UpdateSupportCase")]
-        public async Task<SupportCaseResponse> Update(SupportCaseRequest supportCase)
+        public async Task<ActionResult<SupportCaseResponse>> Update(SupportCaseRequest supportCase)
         {
+            var validationResult = await _validator.ValidateAsync(supportCase);
+            if (!validationResult.IsValid)
+            {
+                var errors = validationResult.Errors.Select(e => new { field = e.PropertyName, message = e.ErrorMessage }).ToList();
+                return BadRequest(new { errors = errors });
+            }
             if (supportCase.ReferenceNumber <= 0)
             {
-                return null;
+                return BadRequest(new { error = "Reference number must be greater than 0" });
             }
             var supportCaseUpdated = await _supportCaseService.UpdateAsync(supportCase);
-            return supportCaseUpdated;
+            return Ok(supportCaseUpdated);
         }
 
     }
