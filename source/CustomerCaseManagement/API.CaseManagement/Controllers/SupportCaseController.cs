@@ -1,5 +1,5 @@
 using Microsoft.AspNetCore.Mvc;
-using Infra.CaseManagement.Entity;
+using Domain.CaseManagement.Entity;
 
 namespace API.CaseManagement.Controllers
 {

@@ -1,6 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.Identity.Client;
-using Infra.CaseManagement.Entity;
+using Domain.CaseManagement.Entity;
 
 namespace Infra.CaseManagement
 {

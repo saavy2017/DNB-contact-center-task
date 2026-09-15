@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace Infra.CaseManagement.Entity
+namespace Domain.CaseManagement.Entity
 {
     public class SupportCase
     {
