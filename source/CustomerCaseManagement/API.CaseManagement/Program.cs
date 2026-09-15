@@ -13,6 +13,7 @@ var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddControllers();
 
+builder.Services.AddProblemDetails();
 builder.Services.AddValidatorsFromAssemblyContaining<SupportCaseValidator>();
 // Learn more about configuring Swagger at https://aka.ms/aspnet/swashbuckle
 builder.Services.AddSwaggerGen();
@@ -20,13 +21,9 @@ builder.Services.AddDbContext<CaseDbContext>(options => options.UseSqlServer(bui
 builder.Services.AddScoped<ISupportCaseService, SupportCaseService>();
 builder.Services.AddScoped<ISupportCaseRepository, SupportCaseRepository>();
 
-// Configure API behavior to return validation errors as 400 Bad Request
-builder.Services.Configure<Microsoft.AspNetCore.Mvc.ApiBehaviorOptions>(options =>
-{
-    options.SuppressModelStateInvalidFilter = false;
-});
 
 var app = builder.Build();
+app.UseExceptionHandler();
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
