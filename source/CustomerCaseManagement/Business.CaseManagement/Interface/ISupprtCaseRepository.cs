@@ -1,9 +1,4 @@
 ﻿using Domain.CaseManagement.Entity;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Application.CaseManagement.Interface
 {
@@ -13,7 +8,6 @@ namespace Application.CaseManagement.Interface
         Task<SupportCase> GetByIdAsync(int id);
         Task<List<SupportCase>> GetAllAsync();
         Task<SupportCase> UpdateAsync(SupportCase supportCase);
-        Task<List<SupportCase>> Search(int id);
         Task<SupportCase> GetByRefIdAsync(int refId);
     }
 }

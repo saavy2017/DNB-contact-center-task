@@ -9,54 +9,52 @@ namespace API.CaseManagement.Controllers
     public class SupportCaseController : ControllerBase
     {
         private readonly ISupportCaseService _supportCaseService;
-        public SupportCaseController(ISupportCaseService supportCaseService)
+        private readonly ISupportCaseFilterService _supportCaseFilterService;
+        public SupportCaseController(ISupportCaseService supportCaseService, ISupportCaseFilterService supportCaseFilterService)
         {
             _supportCaseService = supportCaseService;
+            _supportCaseFilterService = supportCaseFilterService;
         }
         [HttpGet(Name = "GetSupportCases")]
-        public async Task<IEnumerable<SupportCaseRequest>> Get()
+        public async Task<IEnumerable<SupportCaseResponse>> Get()
         {
             return await _supportCaseService.GetAllAsync();
         }
 
         [HttpGet("{id}", Name = "GetSupportCaseById")]
-        public async Task<ActionResult<SupportCaseRequest>> Get(int id)
+        public async Task<SupportCaseResponse> Get(int id)
         {
             var supportCase = await _supportCaseService.GetByIdAsync(id);
             if (supportCase == null)
             {
-                return NotFound();
+                return null;
             }
-            return Ok(supportCase);
+            return supportCase;
         }
 
-        [HttpGet("search/{id}")]
-        public async Task<ActionResult<SupportCaseRequest>> Search(int id)
+        [HttpGet("SearchFilterSupportCases")]
+        public async Task<List<SupportCaseResponse>> Search([FromQuery]SupportCaseFilterRequest request)
         {
-            var supportCase = await _supportCaseService.Search(id);
-            if (supportCase == null)
-            {
-                return NotFound();
-            }
-            return Ok(supportCase);
+            var supportCase = await _supportCaseFilterService.Search(request);
+            return supportCase;
         }
 
         [HttpPost(("CreateSupportCase"))]
-        public async Task<SupportCaseRequest> Post(SupportCaseRequest supportCase)
+        public async Task<SupportCaseResponse> Post(SupportCaseRequest supportCase)
         {
             var createdSupportCase = await _supportCaseService.AddAsync(supportCase);
             return createdSupportCase;
         }
 
         [HttpPut("UpdateSupportCase")]
-        public async Task<ActionResult<SupportCaseRequest>> Update(SupportCaseRequest supportCase)
+        public async Task<SupportCaseResponse> Update(SupportCaseRequest supportCase)
         {
             if (supportCase.ReferenceNumber <= 0)
             {
-                return BadRequest();
+                return null;
             }
             var supportCaseUpdated = await _supportCaseService.UpdateAsync(supportCase);
-            return Ok(supportCaseUpdated);
+            return supportCaseUpdated;
         }
 
     }

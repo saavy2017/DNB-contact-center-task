@@ -18,7 +18,7 @@ namespace Application.CaseManagement.Service
             _supportCaseRepository = supportCaseRepository;
             _validator = validator;
         }
-        public async Task<SupportCaseRequest> AddAsync(SupportCaseRequest supportCaseRequest)
+        public async Task<SupportCaseResponse> AddAsync(SupportCaseRequest supportCaseRequest)
         {
             // Validate the request
             var validationResult = await _validator.ValidateAsync(supportCaseRequest);
@@ -45,7 +45,7 @@ namespace Application.CaseManagement.Service
             var response = await _supportCaseRepository.AddAsync(supportCase);
 
             //Map Entity to DTO
-            var supportCaseResponse = new SupportCaseRequest
+            var supportCaseResponse = new SupportCaseResponse
             {
                 ReferenceNumber = response.ReferenceNumber,
                 CustomerName = response.CustomerName,
@@ -58,12 +58,12 @@ namespace Application.CaseManagement.Service
             return supportCaseResponse;
         }
 
-        public async Task<SupportCaseRequest> GetByIdAsync(int id)
+        public async Task<SupportCaseResponse> GetByIdAsync(int id)
         {
             var response = await _supportCaseRepository.GetByIdAsync(id);
 
             //Map Entity to DTO
-            var supportCaseResponse = new SupportCaseRequest
+            var supportCaseResponse = new SupportCaseResponse
             {
                 ReferenceNumber = response.ReferenceNumber,
                 CustomerName = response.CustomerName,
@@ -76,12 +76,12 @@ namespace Application.CaseManagement.Service
             return supportCaseResponse;
         }
 
-        public async Task<SupportCaseRequest> GetByRefIdAsync(int refId)
+        public async Task<SupportCaseResponse> GetByRefIdAsync(int refId)
         {
             var response = await _supportCaseRepository.GetByRefIdAsync(refId);
 
             //Map Entity to DTO
-            var supportCaseResponse = new SupportCaseRequest
+            var supportCaseResponse = new SupportCaseResponse   
             {
                 ReferenceNumber = response.ReferenceNumber,
                 CustomerName = response.CustomerName,
@@ -94,10 +94,10 @@ namespace Application.CaseManagement.Service
             return supportCaseResponse;
         }
 
-        public async Task<List<SupportCaseRequest>> GetAllAsync()
+        public async Task<List<SupportCaseResponse>> GetAllAsync()
         {
             var supportCases = await _supportCaseRepository.GetAllAsync();
-            return supportCases.Select(sc => new SupportCaseRequest
+            return supportCases.Select(sc => new SupportCaseResponse
             {
                 ReferenceNumber = sc.ReferenceNumber,
                 CustomerName = sc.CustomerName,
@@ -109,7 +109,7 @@ namespace Application.CaseManagement.Service
             }).ToList();
         }
 
-        public async Task<SupportCaseRequest> UpdateAsync(SupportCaseRequest supportCaseRequest)
+        public async Task<SupportCaseResponse> UpdateAsync(SupportCaseRequest supportCaseRequest)
         {
             //Fetch existing Support Case
             var existingSupportCase = await _supportCaseRepository.GetByRefIdAsync(supportCaseRequest.ReferenceNumber);
@@ -139,7 +139,7 @@ namespace Application.CaseManagement.Service
             var updatedSupportCase = await _supportCaseRepository.UpdateAsync(existingSupportCase);
 
             //Map DTO to Entity
-            var response = new SupportCaseRequest
+            var response = new SupportCaseResponse
             {
                 ReferenceNumber = updatedSupportCase.ReferenceNumber,
                 CustomerName = updatedSupportCase.CustomerName,
@@ -152,27 +152,5 @@ namespace Application.CaseManagement.Service
 
             return response;
         }
-        public async Task<List<SupportCaseRequest>> Search(int id)
-        {
-            var supportCases = await _supportCaseRepository.Search(id);
-            return supportCases.Select(sc => new SupportCaseRequest
-            {
-                ReferenceNumber = sc.ReferenceNumber,
-                CustomerName = sc.CustomerName,
-                CustomerEmail = sc.CustomerEmail,
-                Subject = sc.Subject,
-                Description = sc.Description,
-                Priority = sc.Priority,
-                Status = sc.Status
-            }).ToList();
-        }
-    }
-}
-
-namespace Application.CaseManagement.Models
-{
-    public class SupportCaseRequest
-    {
-        // add required properties here that map to SupportCase
     }
 }

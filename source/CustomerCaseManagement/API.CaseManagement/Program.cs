@@ -5,16 +5,23 @@ using Application.CaseManagement.Service;
 using Infra.CaseManagement.Repositories;
 using FluentValidation;
 using Application.CaseManagement.Validator;
+using Application.CaseManagement.DTO;
 
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 
-builder.Services.AddControllers();
+builder.Services.AddControllers().ConfigureApiBehaviorOptions(options =>
+{
+    // Disable automatic model validation to control it manually
+    options.SuppressModelStateInvalidFilter = true;
+});
 
 builder.Services.AddProblemDetails();
-builder.Services.AddValidatorsFromAssemblyContaining<SupportCaseValidator>();
+// Register validators explicitly, excluding SupportCaseFilterRequest
+builder.Services.AddScoped<IValidator<SupportCaseRequest>, SupportCaseValidator>();
+// Disable automatic FluentValidation integration for all types
 // Learn more about configuring Swagger at https://aka.ms/aspnet/swashbuckle
 builder.Services.AddSwaggerGen();
 builder.Services.AddDbContext<CaseDbContext>(options => options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
