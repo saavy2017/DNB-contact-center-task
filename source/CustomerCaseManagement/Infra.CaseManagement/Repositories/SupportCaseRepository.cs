@@ -4,7 +4,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Infra.CaseManagement.Repositories
 {
-    public class SupportCaseRepository : ISupportCase
+    public class SupportCaseRepository : ISupportCaseRepository
     {
         private readonly CaseDbContext _context;
         public SupportCaseRepository(CaseDbContext context)
@@ -20,7 +20,14 @@ namespace Infra.CaseManagement.Repositories
 
         public async Task<List<SupportCase>> GetAllAsync()
         {
-            return await _context.SupportCase.ToListAsync();
+            try
+            {
+                return await _context.SupportCase.ToListAsync();
+            }
+            catch (Exception ex)
+            {
+                return null;
+            }
         }
 
         public async Task<SupportCase> GetByIdAsync(int id)

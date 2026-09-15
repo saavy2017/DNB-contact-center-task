@@ -8,8 +8,8 @@ namespace API.CaseManagement.Controllers
     [Route("api/v1/[controller]")]
     public class SupportCaseController : ControllerBase
     {
-        private readonly ISupportCase _supportCaseService;
-        public SupportCaseController(ISupportCase supportCaseService)
+        private readonly ISupportCaseService _supportCaseService;
+        public SupportCaseController(ISupportCaseService supportCaseService)
         {
             _supportCaseService = supportCaseService;
         }

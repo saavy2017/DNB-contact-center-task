@@ -3,10 +3,10 @@ using Domain.CaseManagement.Entity;
 
 namespace Business.CaseManagement.Service
 {
-    public class SupportCaseService : ISupportCase
+    public class SupportCaseService : ISupportCaseService
     {
-        private readonly ISupportCase _supportCaseRepository;
-        public SupportCaseService(ISupportCase supportCaseRepository)
+        private readonly ISupportCaseRepository _supportCaseRepository;
+        public SupportCaseService(ISupportCaseRepository supportCaseRepository)
         {
             _supportCaseRepository = supportCaseRepository;
         }

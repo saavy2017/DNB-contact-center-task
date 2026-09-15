@@ -1,8 +1,13 @@
 ﻿using Domain.CaseManagement.Entity;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 
 namespace Business.CaseManagement.Interface
 {
-    public interface ISupportCase
+    public interface ISupportCaseRepository
     {
         Task<SupportCase> AddAsync(SupportCase supportCase);
         Task<SupportCase> GetByIdAsync(int id);

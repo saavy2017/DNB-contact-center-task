@@ -15,6 +15,6 @@ namespace Domain.CaseManagement.Entity
         public string Priority { get; set; }
         public string Status { get; set; }
         public DateTime CreatedOn { get; set; }
-        public DateTime ModifiedOn { get; set; }
+        public DateTime? ModifiedOn { get; set; }
     }
 }
