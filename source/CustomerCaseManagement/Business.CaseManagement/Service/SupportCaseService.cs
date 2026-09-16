@@ -138,7 +138,7 @@ namespace Application.CaseManagement.Service
             }
         }
 
-        public async Task<SupportCaseResponse> UpdateAsync(SupportCaseRequest supportCaseRequest)
+        public async Task<SupportCaseResponse> UpdateAsync(SupportCaseUpdateRequest supportCaseRequest)
         {
             try
             {

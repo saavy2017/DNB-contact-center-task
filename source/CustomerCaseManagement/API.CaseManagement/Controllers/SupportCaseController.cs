@@ -12,11 +12,13 @@ namespace API.CaseManagement.Controllers
         private readonly ISupportCaseService _supportCaseService;
         private readonly ISupportCaseFilterService _supportCaseFilterService;
         private readonly IValidator<SupportCaseRequest> _validator;
-        public SupportCaseController(ISupportCaseService supportCaseService, ISupportCaseFilterService supportCaseFilterService, IValidator<SupportCaseRequest> validator)
+        private readonly IValidator<SupportCaseUpdateRequest> _validatorUpdate;
+        public SupportCaseController(ISupportCaseService supportCaseService, ISupportCaseFilterService supportCaseFilterService, IValidator<SupportCaseRequest> validator, IValidator<SupportCaseUpdateRequest> validatorUpdate)
         {
             _supportCaseService = supportCaseService;
             _supportCaseFilterService = supportCaseFilterService;
             _validator = validator;
+            _validatorUpdate = validatorUpdate;
         }
         [HttpGet(Name = "GetSupportCases")]
         public async Task<IEnumerable<SupportCaseResponse>> Get()
@@ -60,9 +62,9 @@ namespace API.CaseManagement.Controllers
         }
 
         [HttpPut("UpdateSupportCase")]
-        public async Task<ActionResult<SupportCaseResponse>> Update(SupportCaseRequest supportCase)
+        public async Task<ActionResult<SupportCaseResponse>> Update(SupportCaseUpdateRequest supportCase)
         {
-            var validationResult = await _validator.ValidateAsync(supportCase);
+            var validationResult = await _validatorUpdate.ValidateAsync(supportCase);
             if (!validationResult.IsValid)
             {
                 var errors = validationResult.Errors.Select(e => new { field = e.PropertyName, message = e.ErrorMessage }).ToList();

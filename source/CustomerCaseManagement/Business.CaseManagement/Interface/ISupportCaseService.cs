@@ -8,7 +8,7 @@ namespace Application.CaseManagement.Interface
         Task<SupportCaseResponse> AddAsync(SupportCaseRequest supportCase);
         Task<SupportCaseResponse> GetByIdAsync(int id);
         Task<List<SupportCaseResponse>> GetAllAsync();
-        Task<SupportCaseResponse> UpdateAsync(SupportCaseRequest supportCase);
+        Task<SupportCaseResponse> UpdateAsync(SupportCaseUpdateRequest supportCase);
         Task<SupportCaseResponse> GetByRefIdAsync(int refId);
     }
 }

@@ -15,6 +15,7 @@ builder.Services.AddControllers();
 
 builder.Services.AddProblemDetails();
 builder.Services.AddValidatorsFromAssemblyContaining<SupportCaseValidator>();
+builder.Services.AddValidatorsFromAssemblyContaining<SupportCaseUpdateValidator>();
 // Learn more about configuring Swagger at https://aka.ms/aspnet/swashbuckle
 builder.Services.AddSwaggerGen(options =>
 {
