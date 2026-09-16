@@ -25,16 +25,20 @@ namespace API.CaseManagement.Controllers
         }
 
         [HttpGet("{id}", Name = "GetSupportCaseById")]
-        public async Task<SupportCaseResponse> Get(int id)
+        public async Task<ActionResult<SupportCaseResponse>> Get(int id)
         {
             var supportCase = await _supportCaseService.GetByIdAsync(id);
             if (supportCase == null)
             {
                 return null;
             }
+            else if (!(string.IsNullOrWhiteSpace(supportCase.ErrorMessage)))
+            {
+                return BadRequest(new { error = supportCase.ErrorMessage });
+            }
             return supportCase;
         }
-
+        
         [HttpGet("SearchFilterSupportCases")]
         public async Task<List<SupportCaseResponse>> Search([FromQuery]SupportCaseFilterRequest request)
         {

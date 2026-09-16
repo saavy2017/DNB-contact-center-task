@@ -21,7 +21,7 @@ namespace Infra.CaseManagement.Repositories
 
         public async Task<List<SupportCase>> GetAllAsync()
         {
-            return await _context.SupportCase.ToListAsync();
+            return await _context.SupportCase.OrderBy(s => s.ReferenceNumber).ToListAsync();
         }
 
         public async Task<SupportCase> GetByIdAsync(int id)

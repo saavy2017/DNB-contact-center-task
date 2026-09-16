@@ -28,7 +28,7 @@ namespace Infra.CaseManagement.Repositories
                     Description = x.Description,
                     Priority = x.Priority,
                     Status = x.Status
-                }).ToList();
+                }).OrderBy(s => s.ReferenceNumber).ToList();
             return Task.FromResult(result);
         }
     }
