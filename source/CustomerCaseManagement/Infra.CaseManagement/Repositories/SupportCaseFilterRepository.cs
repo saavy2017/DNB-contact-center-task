@@ -1,6 +1,7 @@
 ﻿using Application.CaseManagement.DTO;
 using Application.CaseManagement.Interface;
 using Domain.CaseManagement.Entity;
+using Microsoft.EntityFrameworkCore;
 
 namespace Infra.CaseManagement.Repositories
 {
@@ -11,14 +12,14 @@ namespace Infra.CaseManagement.Repositories
         {
             _context = context;
         }
-        public Task<List<SupportCase>> Search(SupportCase request)
+        public async Task<List<SupportCase>> Search(SupportCase request)
         {
             //Search with necessary fields and can be extended later
 
-            var result = _context.SupportCase.AsQueryable().Where(x => (request.ReferenceNumber == 0 || x.ReferenceNumber == request.ReferenceNumber) &&
-                        (string.IsNullOrEmpty(request.CustomerEmail) || x.CustomerEmail.Contains(request.CustomerEmail)) &&
-                        (string.IsNullOrEmpty(request.Priority) || x.Priority == request.Priority) &&
-                        (string.IsNullOrEmpty(request.Status) || x.Status == request.Status))
+            var result = await _context.SupportCase.AsNoTracking().Where(x => (request.ReferenceNumber == 0 || x.ReferenceNumber == request.ReferenceNumber) &&
+                        (string.IsNullOrEmpty(request.CustomerEmail) || x.CustomerEmail.ToLower().Contains(request.CustomerEmail.ToLower())) &&
+                        (string.IsNullOrEmpty(request.Priority) || x.Priority.ToLower() == request.Priority.ToLower()) &&
+                        (string.IsNullOrEmpty(request.Status) || x.Status.ToLower() == request.Status.ToLower())).OrderBy(s => s.ReferenceNumber)
                 .Select(x => new SupportCase
                 {
                     ReferenceNumber = x.ReferenceNumber,
@@ -28,8 +29,8 @@ namespace Infra.CaseManagement.Repositories
                     Description = x.Description,
                     Priority = x.Priority,
                     Status = x.Status
-                }).OrderBy(s => s.ReferenceNumber).ToList();
-            return Task.FromResult(result);
+                }).ToListAsync();
+            return result;
         }
     }
 }
