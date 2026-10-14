@@ -6,6 +6,9 @@ using Moq;
 using NUnit.Framework;
 using Microsoft.Extensions.Logging;
 using Tests.CaseManagement.Utilities;
+using System;
+using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace Tests.CaseManagement.Services
 {

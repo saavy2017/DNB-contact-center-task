@@ -1,5 +1,6 @@
 using Domain.CaseManagement.Entity;
 using Infra.CaseManagement.Repositories;
+using Infra.CaseManagement;
 using NUnit.Framework;
 using Tests.CaseManagement.Utilities;
 

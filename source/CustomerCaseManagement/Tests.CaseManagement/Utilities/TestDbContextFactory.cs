@@ -1,5 +1,6 @@
 using Domain.CaseManagement.Entity;
 using Microsoft.EntityFrameworkCore;
+using Infra.CaseManagement;
 
 namespace Tests.CaseManagement.Utilities
 {
