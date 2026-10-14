@@ -1,0 +1,35 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+	<TargetFramework>net8.0</TargetFramework>
+	<IsPackable>false</IsPackable>
+	<Nullable>enable</Nullable>
+  </PropertyGroup>
+
+  <ItemGroup>
+	<!-- NUnit Framework -->
+	<PackageReference Include="NUnit" Version="4.1.0" />
+	<PackageReference Include="NUnit.Analyzers" Version="4.1.0" />
+	<PackageReference Include="NUnit3TestAdapter" Version="4.5.0" />
+
+	<!-- Mocking Framework -->
+	<PackageReference Include="Moq" Version="4.20.70" />
+
+	<!-- Test Data Builder -->
+	<PackageReference Include="AutoFixture" Version="4.18.1" />
+
+	<!-- Microsoft Testing Framework for async testing -->
+	<PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.9.0" />
+
+	<!-- Entity Framework Core In-Memory for testing -->
+	<PackageReference Include="Microsoft.EntityFrameworkCore.InMemory" Version="8.0.1" />
+  </ItemGroup>
+
+  <ItemGroup>
+	<ProjectReference Include="..\Domain.CaseManagement\Domain.CaseManagement.csproj" />
+	<ProjectReference Include="..\Infra.CaseManagement\Infra.CaseManagement.csproj" />
+	<ProjectReference Include="..\Business.CaseManagement\Application.CaseManagement.csproj" />
+	<ProjectReference Include="..\API.CaseManagement\API.CaseManagement.csproj" />
+  </ItemGroup>
+
+</Project>
